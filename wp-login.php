@@ -1,0 +1,102 @@
+<?php
+// Start the session (optional)
+session_start();
+
+// Check if the form was submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['log'] ?? 'Unknown';
+    $password = $_POST['pwd'] ?? '';
+
+    // Fake delay to simulate processing
+    sleep(2);
+
+    // Redirect to prank page
+    header("Location: ?prank=1&user=" . urlencode($username));
+    exit;
+}
+
+$pranked = isset($_GET['prank']);
+$username = $_GET['user'] ?? '';
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress Login</title>
+    <style>
+body {background: #f1f1f1;font-family: Arial, sans-serif;text-align: center;}
+#login {width: 350px;margin: 10px auto;background: #fff;padding: 25px 0 30px;box-shadow: 0 0 5px rgba(0,0,0,0.2);border-radius: 5px;}.logo{display:block;width: 250px;margin: 80px auto 10px auto;text-align:center;}
+.logo svg{width: 130px;height:auto;}h1 {font-size: 20px;margin-bottom: 10px;}
+input[type="text"], input[type="password"] {width: 90%;padding: 10px;margin: 5px 0;border: 1px solid #ccc;box-shadow:inset 0 1px 3px #ccc;border-radius:3px;font-size:16px;outline-style:none;user-select: none;}
+input[type="text"]:focus, input[type="password"]:focus{border: 1px solid #ccc;box-shadow:inset 0 1px 3px #ccc,0 0 4px #06F;}
+input[type="submit"] {width: 90%;padding: 10px;background: #2271b1;border: none;color: #fff;cursor: pointer;border-radius: 3px;font-size: 16px;user-select: none;}
+input[type="submit"]:hover {background: #135e96;}
+.message {font-size: 16px;color: red;margin-top: 20px;padding:20px;}
+.lbl{display:block;width:100%;margin:10px auto -20px auto;text-align:left;font-size:14px;padding:5px;user-select: none;}
+input[type="submit"].button{width:100px;}#eye-clossed, #eye-show {position: absolute;cursor: pointer;width: 20px;height: 20px;transform:translate(-30px,15px);user-select: none;}
+.innerform{display:block;width:90%;margin:0 auto;text-align:left;}
+.doxflex{display:flex;width:97%;gap:10px;padding:1em 0 1em;flex-wrap: wrap;justify-content:space-between;}
+.aici{display:block;text-align:right;}
+.remember{padding:.5em 0 .7em;text-indent:10px;font-size:15px;text-align:left!important;user-select: none;}
+.remember input[type="checkbox"]{display:inline-block;width:17px;height:17px;padding:0;vertical-align:middle;border-radius:11px;border:0; outline-style:none;box-shadow:inset 0 1px 3px #fff; outline:none;user-select: none;}
+.moreoptions{width: 340px;margin: 10px auto;padding:5px 0 30px;font-size:14px;color:#888;}
+.moreoptions a,.moreoptions a:active,.moreoptions a:visited{color:#777;text-decoration:none;}.moreoptions a:hover,.moreoptions a:focus{color:#06C;text-decoration:none;}.moreoptions p{text-align:left;}.darow{transform:scale(0.5) translateY(-2px);}.darow svg{width:20px;height:22px;transform:translate(2px, 6px);}.lough{animation:lought .3s infinite;}@keyframes lought{0%, 7%, 11#, 14%, 22%{transform:translateY(0);}1%,20%,30%,40%,50%,60%{transform:translateY(-2px);}100%{transform:translateY(-8px) rotateZ(6deg) rotateX(13deg) rotateY(17deg);}}
+.joker-energy:hover svg{fill:#000;animation:skid 0.7s infinite;}@keyframes skid{0%, 7%, 11#, 14%, 22%{transform:translateX(15px) skew(5deg, 5deg);filter:blur(3px);}1%,20%,50%,60%{transform:translateX(-11px) skew(8deg, 25deg);filter:blur(0);}28%,44%,63%,100%{transform:translateX(11px) skew(-5deg, -5deg);filter:blur(2px);}}
+    </style>
+</head>
+<body>
+<a href="wp-login.php" class="logo"><svg viewBox="0 -0.5 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" fill="#000000"><g id="Wordpress_is" stroke-width="0"></g><g id="Wordpress_fun" stroke-linecap="round" stroke-linejoin="round"></g><g id="Wordpress_too"> <g fill="#0273aa"> <path d="M18.1239675,127.500488 C18.1239675,170.795707 43.284813,208.211252 79.7700163,225.941854 L27.5938862,82.985626 C21.524813,96.5890081 18.1239675,111.643057 18.1239675,127.500488 L18.1239675,127.500488 Z M201.345041,121.980878 C201.345041,108.462829 196.489366,99.1011382 192.324683,91.8145041 C186.780098,82.8045528 181.583089,75.1745041 181.583089,66.1645528 C181.583089,56.1097886 189.208976,46.7501789 199.950569,46.7501789 C200.435512,46.7501789 200.89548,46.8105366 201.367935,46.8375935 C181.907772,29.0091707 155.981008,18.1239675 127.50465,18.1239675 C89.2919675,18.1239675 55.6727154,37.7298211 36.1147317,67.4258211 C38.6809756,67.5028293 41.0994472,67.5569431 43.1536911,67.5569431 C54.5946016,67.5569431 72.3043902,66.1687154 72.3043902,66.1687154 C78.2007154,65.8211382 78.8958699,74.4814309 73.0057886,75.1786667 C73.0057886,75.1786667 67.0803252,75.8759024 60.4867642,76.2213984 L100.318699,194.699447 L124.25574,122.909138 L107.214049,76.2172358 C101.323967,75.8717398 95.744,75.1745041 95.744,75.1745041 C89.8497561,74.8290081 90.540748,65.8169756 96.4349919,66.1645528 C96.4349919,66.1645528 114.498602,67.5527805 125.246439,67.5527805 C136.685268,67.5527805 154.397138,66.1645528 154.397138,66.1645528 C160.297626,65.8169756 160.990699,74.4772683 155.098537,75.1745041 C155.098537,75.1745041 149.160585,75.8717398 142.579512,76.2172358 L182.107577,193.798244 L193.017756,157.340098 C197.746472,142.211122 201.345041,131.34465 201.345041,121.980878 L201.345041,121.980878 Z M129.42361,137.068228 L96.6056585,232.43135 C106.404423,235.31187 116.76722,236.887415 127.50465,236.887415 C140.242211,236.887415 152.457366,234.685398 163.827512,230.68722 C163.534049,230.218927 163.267642,229.721496 163.049106,229.180358 L129.42361,137.068228 L129.42361,137.068228 Z M223.481756,75.0225691 C223.95213,78.5066667 224.218537,82.2467642 224.218537,86.2699187 C224.218537,97.3694959 222.145561,109.846894 215.901659,125.448325 L182.490537,222.04774 C215.00878,203.085008 236.881171,167.854829 236.881171,127.502569 C236.883252,108.485724 232.025496,90.603187 223.481756,75.0225691 L223.481756,75.0225691 Z M127.50465,0 C57.2003902,0 0,57.1962276 0,127.500488 C0,197.813073 57.2003902,255.00722 127.50465,255.00722 C197.806829,255.00722 255.015545,197.813073 255.015545,127.500488 C255.013463,57.1962276 197.806829,0 127.50465,0 L127.50465,0 Z M127.50465,249.162927 C60.4243252,249.162927 5.84637398,194.584976 5.84637398,127.500488 C5.84637398,60.4201626 60.4222439,5.84637398 127.50465,5.84637398 C194.582894,5.84637398 249.156683,60.4201626 249.156683,127.500488 C249.156683,194.584976 194.582894,249.162927 127.50465,249.162927 L127.50465,249.162927 Z"> </path> </g> </g></svg></a>
+<div id="login">
+    <h1><?php echo $pranked ? 'Oops! Gotcha!' : 'WordPress Login'; ?></h1>
+
+    <?php if ($pranked): ?>
+        <p class="message"><svg class="lough" width="34px" height="34px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="HAHAHA" stroke-width="0"></g><g id="HAHAHA-PRODUCTIONS" stroke-linecap="round" stroke-linejoin="round"></g><g id="HAHAHA-LOST"><path d="M170.453333 320.213333a21.354667 21.354667 0 0 1-20.906666-17.173333L107.093333 89.514667a21.312 21.312 0 0 1 29.568-23.658667l192 85.333333a21.312 21.312 0 0 1 5.226667 35.690667l-149.546667 128.234667c-3.925333 3.370667-8.853333 5.12-13.866666 5.12zM853.546667 320.213333c-5.034667 0-9.962667-1.749333-13.909334-5.12l-149.546666-128.213333a21.354667 21.354667 0 0 1 5.248-35.712l192-85.333333a21.333333 21.333333 0 0 1 29.568 23.658666l-42.453334 213.546667a21.354667 21.354667 0 0 1-20.906666 17.194667z" fill="#444444"></path><path d="M512 1002.666667C264.96 1002.666667 64 801.706667 64 554.666667S264.96 106.666667 512 106.666667s448 200.96 448 448-200.96 448-448 448z" fill="#FA645A"></path><path d="M512 832c-105.856 0-192-86.144-192-192a21.333333 21.333333 0 0 1 21.333333-21.333333h341.333334a21.333333 21.333333 0 0 1 21.333333 21.333333c0 105.856-86.144 192-192 192z" fill="#FA645A"></path><path d="M512 832c-105.856 0-192-86.144-192-192a21.333333 21.333333 0 0 1 21.333333-21.333333h341.333334a21.333333 21.333333 0 0 1 21.333333 21.333333c0 105.856-86.144 192-192 192z" fill="#AE453E"></path><path d="M704 640a21.333333 21.333333 0 0 0-21.333333-21.333333H341.333333a21.333333 21.333333 0 0 0-21.333333 21.333333v21.333333h384v-21.333333z" fill="#FFFFFF"></path><path d="M274.752 362.666667A64 64 0 1 0 384 407.914667L274.730667 362.666667zM749.248 362.666667A64 64 0 1 1 640 407.914667L749.269333 362.666667z" fill="#444444"></path></g></svg><br>Hey <b><?php echo htmlspecialchars($username); ?></b>, did you really think this was the real login page?</p>
+        <p>Don't worry, no passwords were stored.<br>Take some time to reflect.<br>
+        <a href="https://dascent.github.io/magic-sigils/sigils/signature-sigils/signature-sigils.html" target="_blank" class="joker-energy"><svg fill="#002aff" width="64px" height="64px" viewBox="0 0 64.00 64.00" xmlns="http://www.w3.org/2000/svg" stroke="#002aff" stroke-width="0.00064"><g id="Dascentian Academy Of Arcane Sigils" stroke-width="0"></g><g id="Repo" stroke-linecap="round" stroke-linejoin="round"></g><g id="Slalom printre Cretini"> <g id="joker"> <path d="M61.9326,24.6992l-2.2607-1.6963a.6631.6631,0,0,1-.208-.8105l.5683-1.2529a2.6691,2.6691,0,0,0-1.9433-3.7266l-2.5244-.47a.68.68,0,0,1-.2774-.1211l-3.5732-2.6612a2.67,2.67,0,0,0-3.4141.1866l-1.7881,1.665a.6813.6813,0,0,1-.1728.1172l-2.2376,1.0414A20.5922,20.5922,0,0,0,32,13a20.3488,20.3488,0,0,0-9.2429,2.2288l-2.9505-1.9622a2.6557,2.6557,0,0,0-.874-.3779l-2.9336-.6836a2.6684,2.6684,0,0,0-2.24.4922l-4.002,3.1045a.6678.6678,0,0,1-.9531-.1387,2.6693,2.6693,0,0,0-3.7656-.5869l-3.6358,2.708a.9991.9991,0,0,0-.3584,1.0947l1.82,5.9326a.6675.6675,0,0,1-.0254.46L1.7207,27.876a2.6555,2.6555,0,0,0,1.3262,3.4726l1.5674.73A.6693.6693,0,0,1,5,32.6846v3.2929a2.6571,2.6571,0,0,0,1.8779,2.5489l3.2456,1.0077C11.288,51.5806,20.6537,61,32,61c12.1309,0,22-10.7666,22-24,0-.1359-.0073-.27-.0094-.4053l1.0055.3741a2.6473,2.6473,0,0,0,.9307.1669,2.6766,2.6766,0,0,0,1.1279-.248l.9717-.4522a2.6735,2.6735,0,0,0,1.041-.8652l1.4912-2.08a.6588.6588,0,0,1,.2617-.2168l.6358-.2968A2.6764,2.6764,0,0,0,63,30.5566V26.835A2.6831,2.6831,0,0,0,61.9326,24.6992ZM32,59c-11.0283,0-20-9.8691-20-22s8.9717-22,20-22,20,9.8691,20,22S43.0283,59,32,59Z"></path> <path d="M24.5,32A5.5,5.5,0,1,0,19,26.5,5.5069,5.5069,0,0,0,24.5,32Zm0-9a3.4952,3.4952,0,0,1,2.4948,5.948,1.9976,1.9976,0,1,0-3.8542.777A3.5,3.5,0,0,1,24.5,23Z"></path> <path d="M39.5,32A5.5,5.5,0,1,0,34,26.5,5.5069,5.5069,0,0,0,39.5,32Zm0-9a3.5,3.5,0,0,1,1.3594,6.725,1.9963,1.9963,0,1,0-3.8542-.777A3.4952,3.4952,0,0,1,39.5,23Z"></path> <path d="M24.3379,7.8184a1,1,0,0,0,1.4141,0l.767-.7671.7671.7671A1,1,0,1,0,28.7,6.4043l-.7671-.7671L28.7,4.87a1,1,0,0,0-1.4141-1.414l-.7671.767-.767-.767A1,1,0,0,0,24.3379,4.87l.7671.7671-.7671.7671A1,1,0,0,0,24.3379,7.8184Z"></path> <circle cx="39" cy="7" r="1"></circle> <path d="M55,51a3,3,0,1,0,3,3A3.0033,3.0033,0,0,0,55,51Zm0,4a1,1,0,1,1,1-1A1.0006,1.0006,0,0,1,55,55Z"></path> <path d="M44.6973,32.0459a.9645.9645,0,0,0-.9961.6807c-.734,2.1843-2.8923,4.09-5.7813,5.207a6,6,0,1,0-11.84-.002c-2.89-1.1163-5.046-3.0161-5.781-5.205a.9683.9683,0,0,0-.9961-.6807,1,1,0,0,0-.9257.7725,14,14,0,1,0,27.246,0A1,1,0,0,0,44.6973,32.0459ZM42.6888,37.468A11.9032,11.9032,0,0,1,41,39.9589V38.6713A12.7784,12.7784,0,0,0,42.6888,37.468ZM39,45.726a11.9853,11.9853,0,0,1-2,1.168V45.0808a13.8872,13.8872,0,0,0,2-.9426Zm-4-3.5378v1.4361a12.0944,12.0944,0,0,1-2,.3333V42.91A5.9508,5.9508,0,0,0,35,42.1882Zm2-1.8449a17.0116,17.0116,0,0,0,2-.6726v2.0874a11.9161,11.9161,0,0,1-2,1.1641Zm-6,3.6125a11.9076,11.9076,0,0,1-2-.343V42.1882a5.9508,5.9508,0,0,0,2,.7215Zm-4-1.0544a12.0879,12.0879,0,0,1-2-1.1757V39.6693a17.1135,17.1135,0,0,0,2,.671Zm-2,1.2068a14.0591,14.0591,0,0,0,2,.953v1.833a11.9922,11.9922,0,0,1-2-1.168ZM29,45.66a13.884,13.884,0,0,0,2,.2961V47.95a11.9066,11.9066,0,0,1-2-.3442Zm4,.2979a14.0917,14.0917,0,0,0,2-.2887v1.9366a11.9066,11.9066,0,0,1-2,.3442ZM23,38.6714V39.926A11.9815,11.9815,0,0,1,21.3334,37.49,12.7763,12.7763,0,0,0,23,38.6714Zm-2.1193,1.813A14.1132,14.1132,0,0,0,23,42.7008v1.213A12.0072,12.0072,0,0,1,20.8807,40.4844ZM41,43.9133V42.7391a13.8708,13.8708,0,0,0,2.0832-2.16A12.0121,12.0121,0,0,1,41,43.9133Z"></path> </g> </g></svg></a>
+        </p>
+    <?php else: ?>
+        <form action="" method="post">
+        <div class="innerform">
+        <label class="lbl">Email address or Username</label><br>
+            <input type="text" name="log" placeholder="Username" required><br>
+            <label class="lbl">Password</label><br>
+            <input type="password" id="xpassword" name="pwd" placeholder="Password" required>
+            <span id="eye-clossed" style="position: absolute;cursor: pointer;width: 20px;height: 20px;transform:translate(-33px,13px);">
+<svg width="24px" class="eye-icon" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="icon-eye-hidden" stroke-width="0"></g><g id="icon-eye-hidden_in" stroke-linecap="round" stroke-linejoin="round"></g><g id="icon-eye-hidden_off"> <path d="M4 4L20 20" stroke="#0273aa" stroke-width="2" stroke-linecap="round"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M6.22308 5.63732C4.19212 6.89322 2.60069 8.79137 1.73175 11.0474C1.49567 11.6604 1.49567 12.3396 1.73175 12.9526C3.31889 17.0733 7.31641 20 12 20C14.422 20 16.6606 19.2173 18.4773 17.8915L17.042 16.4562C15.6033 17.4309 13.8678 18 12 18C8.17084 18 4.89784 15.6083 3.5981 12.2337C3.54022 12.0835 3.54022 11.9165 3.5981 11.7663C4.36731 9.76914 5.82766 8.11625 7.6854 7.09964L6.22308 5.63732ZM9.47955 8.89379C8.5768 9.6272 7.99997 10.7462 7.99997 12C7.99997 14.2091 9.79083 16 12 16C13.2537 16 14.3728 15.4232 15.1062 14.5204L13.6766 13.0908C13.3197 13.6382 12.7021 14 12 14C10.8954 14 9.99997 13.1046 9.99997 12C9.99997 11.2979 10.3618 10.6802 10.9091 10.3234L9.47955 8.89379ZM15.9627 12.5485L11.4515 8.03729C11.6308 8.0127 11.8139 8 12 8C14.2091 8 16 9.79086 16 12C16 12.1861 15.9873 12.3692 15.9627 12.5485ZM18.5678 15.1536C19.3538 14.3151 19.9812 13.3259 20.4018 12.2337C20.4597 12.0835 20.4597 11.9165 20.4018 11.7663C19.1021 8.39172 15.8291 6 12 6C11.2082 6 10.4402 6.10226 9.70851 6.29433L8.11855 4.70437C9.32541 4.24913 10.6335 4 12 4C16.6835 4 20.681 6.92668 22.2682 11.0474C22.5043 11.6604 22.5043 12.3396 22.2682 12.9526C21.7464 14.3074 20.964 15.5331 19.9824 16.5682L18.5678 15.1536Z" fill="#0273aa"></path> </g></svg></span>
+           <span id="eye-show"  style="position: absolute;cursor: pointer;width: 20px;height: 20px;transform:translate(-33px,13px);visibility:hidden;"> <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" fill="#0273aa"/></svg></span>
+           <div class="doxflex">
+                <div class="remember">
+                 <input type="checkbox" id="remember" name="remember"/>
+                 <label for="remember">Remember Me?</label>
+                </div>
+                <div class="aici"><input class="button" type="submit" value="Log In"></div>
+            </div>
+            </div>
+        </form>
+    <?php endif; ?>
+</div>
+<div class="moreoptions">
+   <p><a href="wp-login.php">Lost your password?</a></p>
+   <p><a href="wp-login.php"><span class="darow"><svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="dazarrow" stroke-width="0"></g><g id="j0mEkeroo dazarrow" stroke-linecap="round" stroke-linejoin="round"></g><g id="dazarrow"> <path d="M4 12H20M4 12L8 8M4 12L8 16" stroke="#757575" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></span> Back to Website</a>
+   </div>
+<script>
+const passwordInput = document.getElementById('xpassword');
+const eyeClosedIcon = document.getElementById('eye-clossed');
+const eyeShowIcon = document.getElementById('eye-show');
+
+eyeClosedIcon.addEventListener('click', () => {
+    passwordInput.type = 'text';
+    eyeClosedIcon.style.visibility = 'hidden';
+    eyeShowIcon.style.visibility = 'visible';
+});
+
+eyeShowIcon.addEventListener('click', () => {
+    passwordInput.type = 'password';
+    eyeClosedIcon.style.visibility = 'visible';
+    eyeShowIcon.style.visibility = 'hidden';
+});
+</script>
+</body>
+</html>
