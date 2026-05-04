@@ -1,122 +1,608 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Search - 404</title>
-<style>
-body{width:90%;margin:0 auto;font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;background-color:#f1f1f1;font-size:1.5rem;color:#555;font-weight:100;}
-#dxcontainer{display:block;width:80%;height:auto;margin:0 auto;padding:1.5em;background-color:#fff;color:#555;box-shadow:0 0 2px #999;}
-.dxsection{font-size:1.7rem;}
-.dxsection p{display:block;width:90%;height:auto;margin:0 auto;font-size:18px; font-style:italic;}
-.tcenter{text-align:center;}
-.attention{display:block;width:90%;height:auto;padding:0;margin:0 auto;}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP Flag Checker | Blocklist Tool</title>
+  <style>
+    /* --- Base Styles --- */
+    * {
+      box-sizing: border-box;
+    }
 
-.svg-icon-question {
-  width: 5em;
-  height: 5em;
-  padding:.5em;
-  filter:drop-shadow(0 0 1px #999);
-}
+    body {
+      width: 90%;
+      max-width: 1280px;
+      margin: 2rem auto;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f1f1f1;
+      color: #2c3e50;
+      font-weight: normal;
+      line-height: 1.5;
+    }
 
-.svg-icon-question path,
-.svg-icon-questionpolygon,
-.svg-icon-question rect {
-  fill: #096;
-}
+    #dxcontainer {
+      display: block;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem;
+      background-color: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+      transition: all 0.2s ease;
+    }
 
-.svg-icon-question circle {
-  stroke: #096;
-  stroke-width: 1;
-}
-p.button{display:block;width:80%;height:auto;margin:30px auto 12px auto;text-align:center;padding:1em .5em 1em;}
-.button a:link,.button a:visited{background-color:#09F;color:#fff;text-decoration:none;font-size:1.5rem;padding:.3em 1em .5em;border-radius:5px;text-align:center;font-style:normal;}
-.button a:hover{background-color:#09C;color:#fff;text-decoration:none;}
-.zetdesign:before,
-.zetdesign:after{display:block;float:none;clear:both;}
-.zetdesign{width:70%;height:auto;box-sizing:border-box;padding:3em 1em 2em;margin:0 auto;}
-/*** Search ***/
-.dxsection .search-container {display:block;width:100%;height:auto;margin:20px auto 12px auto;padding:.3em 0 .3em;box-sizing:border-box;float:none;clear:both;}
-.search-container:before,
-.search-container:after{display:block;float:none;clear:both;}
-.dxsection input[type=text] {
-float: left;
-width:70%;
-  padding: 8px;
-  margin-top: 8px;
-  font-size: 17px;
-  border: none;
-  box-shadow:0 0 2px #999;
-}
+    /* --- Typography & Layout --- */
+    .dxsection {
+      margin-bottom: 2rem;
+    }
 
-.dxsection .search-container button {
-  float: left;
-  width:20%;
-  padding: 9px 5px 9px;
-  margin-top: 7px;
-  margin-right: 16px;
-  background-color:#09F;
-  font-size: 17px;
-  border: none;
-  cursor: pointer;
-  color:#fff;
-  border-radius:0 7px 7px 0;
-}
+    .dxsection h2 {
+      font-size: 2rem;
+      font-weight: 500;
+      margin: 0 0 0.5rem 0;
+      color: #1e2a3a;
+      letter-spacing: -0.01em;
+    }
 
-.dxsection .search-container button:hover {
-  background-color:#09C;
-}
-.dxsection .search-container input[type=text]:focus{box-shadow:0 1px 3px #999, inset 0 0 5px #f1f1f1;; outline:none;}
+    .dxsection p {
+      font-size: 1rem;
+      color: #4a627a;
+      margin: 0.75rem auto;
+      max-width: 90%;
+    }
 
-.svg-icon-search {width: 1em;height: 1em;  vertical-align:middle;margin-right:5px;}
-.svg-icon-search path,
-.svg-icon-search polygon,
-.svg-icon-search rect {fill: #ffffff;}
-.svg-icon-search circle {stroke: #ffffff;stroke-width: 1;}
-</style>
+    .tcenter {
+      text-align: center;
+    }
+
+    .attention {
+      margin-bottom: 0.5rem;
+    }
+
+    /* --- SVG Icons --- */
+    .svg-icon-question {
+      width: 4rem;
+      height: 4rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    .svg-icon-question path,
+    .svg-icon-question polygon,
+    .svg-icon-question rect {
+      fill: #2c7a4d;
+    }
+
+    .svg-icon-question circle {
+      stroke: #2c7a4d;
+      stroke-width: 1.2;
+    }
+
+    .svg-icon-search {
+      width: 1.2em;
+      height: 1.2em;
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+
+    .svg-icon-search path,
+    .svg-icon-search polygon,
+    .svg-icon-search rect {
+      fill: #ffffff;
+    }
+
+    /* --- Search Form --- */
+    .search-container {
+      margin: 1.5rem auto;
+      max-width: 700px;
+      background: #f8fafc;
+      padding: 0.75rem;
+      border-radius: 60px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .ip-search-form {
+      display: flex;
+      gap: 0;
+      align-items: center;
+      background: white;
+      border-radius: 60px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      transition: box-shadow 0.2s;
+    }
+
+    .ip-search-form:focus-within {
+      box-shadow: 0 0 0 3px rgba(44, 122, 77, 0.2);
+      border-color: #2c7a4d;
+    }
+
+    .ip-search-form input[type="text"] {
+      flex: 1;
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      background: transparent;
+      font-family: monospace;
+      font-weight: 500;
+      outline: none;
+      color: #0f172a;
+    }
+
+    .ip-search-form input[type="text"]::placeholder {
+      color: #94a3b8;
+      font-family: -apple-system, system-ui, sans-serif;
+    }
+
+    .ip-search-form button {
+      background-color: #2c7a4d;
+      border: none;
+      padding: 0.9rem 1.8rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      letter-spacing: 0.02em;
+    }
+
+    .ip-search-form button:hover {
+      background-color: #1e5a3a;
+    }
+
+    /* --- Result Card --- */
+    .result-card {
+      background: #f1f5f9;
+      border-radius: 28px;
+      padding: 1.5rem;
+      margin: 2rem auto 1rem;
+      max-width: 700px;
+      transition: all 0.2s;
+      text-align: center;
+      font-weight: 500;
+      border-left: 6px solid transparent;
+    }
+
+    .result-flagged {
+      background: #fff1f0;
+      border-left-color: #e53e3e;
+      color: #9b2c2c;
+    }
+
+    .result-clean {
+      background: #e6f7ec;
+      border-left-color: #2c7a4d;
+      color: #1e5a3a;
+    }
+
+    .result-loading {
+      background: #f1f5f9;
+      border-left-color: #fbbf24;
+      color: #b45309;
+    }
+
+    .result-error {
+      background: #fef2e8;
+      border-left-color: #dd6b20;
+      color: #9b4c1c;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(0,0,0,0.05);
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .status-msg {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    /* --- Stats & Metadata --- */
+    .stats {
+      font-size: 0.85rem;
+      color: #475569;
+      background: #f8fafc;
+      padding: 0.5rem 1rem;
+      border-radius: 100px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(44, 122, 77, 0.2);
+      border-top-color: #2c7a4d;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .footer-link {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: #f1f5f9;
+      border-radius: 40px;
+      text-decoration: none;
+      color: #2c7a4d;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .footer-link:hover {
+      background: #e2e8f0;
+      color: #1e5a3a;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 1.5rem 0;
+    }
+
+    @media (max-width: 680px) {
+      body { width: 95%; margin: 1rem auto; }
+      #dxcontainer { padding: 1rem; }
+      .ip-search-form button { padding: 0.8rem 1.2rem; }
+    }
+  </style>
 </head>
-
 <body>
 
 <div id="dxcontainer">
-<div class="attention tcenter">
-  
-<svg class="svg-icon-question"  width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.57 6.033H5.25C5.22 4.147 6.68 3.5 8.006 3.5c1.397 0 2.673.73 2.673 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.355H7.117l-.007-.463c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.901 0-1.358.603-1.358 1.384zm1.251 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"/>
-</svg>
+  <div class="attention tcenter">
+    <svg class="svg-icon-question" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.57 6.033H5.25C5.22 4.147 6.68 3.5 8.006 3.5c1.397 0 2.673.73 2.673 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.355H7.117l-.007-.463c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.901 0-1.358.603-1.358 1.384zm1.251 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"/>
+    </svg>
   </div>
-  <div class="dxsection tcenter">
-  <h2>Searching for something?</h2>
-  </div>
-  
-  
-  <div class="dxsection">
-  <p>Unfortunateley the page or article you were looking for is ... I have no idea.<br>
-  do a search on site instead</p>
-    <div class="search-container">
-    <form role="search" method="get" action="https://www.google.com/search?q=">
-      <input type="text" placeholder="Search.." name="q">
-      <button type="submit">
-      <svg class="svg-icon-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-  <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-</svg> <span>SEARCH</span>
-      </button>
-    </form>
-   </div>
-  </div>
-  
-  <div class="dxsection zetdesign">
-  <div class="tcenter button">
-         <a href="https://github.com/cssmfc/block/discussions/categories/contact" target="_blnak">reach out</a>
-  </div>
-  </div>
-  
 
+  <div class="dxsection tcenter">
+    <h2>🔍 IP Blocklist Scanner</h2>
+    <p>Check if an IP address is flagged in our live threat feed.<br>Search among thousands of malicious IPs from Wordfence & custom blocklists.</p>
+  </div>
+
+  <div class="dxsection">
+    <div class="search-container">
+      <form id="ipCheckForm" class="ip-search-form" role="search">
+        <input type="text" id="ipInput" placeholder="Enter IPv4 address (e.g., 192.168.1.1 or 203.0.113.0/24)" autocomplete="off" spellcheck="false">
+        <button type="submit" id="searchBtn">
+          <svg class="svg-icon-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+          </svg>
+          <span>CHECK IP</span>
+        </button>
+      </form>
+    </div>
+    <div id="resultArea" class="result-card result-loading" style="display: none;">
+      <!-- Dynamic result will appear here -->
+    </div>
+    <div id="statusHint" class="tcenter stats">
+      <span id="dataStatus">⟳ Loading blocklist data from GitHub...</span>
+    </div>
+  </div>
+
+  <div class="dxsection tcenter">
+    <hr>
+    <a href="https://github.com/cssmfc/block/discussions/categories/contact" target="_blank" rel="noopener noreferrer" class="footer-link">📢 Report false positive / Contact</a>
+  </div>
 </div>
 
+<script>
+  // ---------- CONFIGURATION ----------
+  const GITHUB_OWNER = 'cssmfc';
+  const GITHUB_REPO = 'block';
+  const BLOCKLIST_PATH = 'feed-ban-ip';     // folder containing .txt files
+  // API endpoint to list contents of a GitHub directory
+  const API_LIST_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${BLOCKLIST_PATH}`;
+  
+  // Cache structure
+  let blocklistEntries = new Set();         // for exact IP match (fast)
+  let cidrBlocks = [];                      // store { cidrString, network, mask } for range matching
+  let isDataReady = false;
+  let isLoading = false;
+  let lastFetchAttempt = 0;
+  
+  // Helper: validate IPv4 address and optionally CIDR prefix
+  function isValidIPv4(ip) {
+    const ipv4Regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    return ipv4Regex.test(ip);
+  }
 
+  function isValidCIDR(cidr) {
+    const parts = cidr.split('/');
+    if (parts.length !== 2) return false;
+    const ipPart = parts[0];
+    const prefix = parseInt(parts[1], 10);
+    if (isNaN(prefix) || prefix < 0 || prefix > 32) return false;
+    return isValidIPv4(ipPart);
+  }
 
+  // Convert IPv4 string to integer (uint32)
+  function ipToInt(ip) {
+    const parts = ip.split('.');
+    return ((parseInt(parts[0], 10) << 24) >>> 0) +
+           ((parseInt(parts[1], 10) << 16) >>> 0) +
+           ((parseInt(parts[2], 10) << 8) >>> 0) +
+           parseInt(parts[3], 10);
+  }
 
+  // Parse CIDR to { networkInt, maskInt, cidrString }
+  function parseCIDR(cidr) {
+    const [ip, prefixBits] = cidr.split('/');
+    const prefix = parseInt(prefixBits, 10);
+    const ipInt = ipToInt(ip);
+    const maskInt = (0xFFFFFFFF << (32 - prefix)) >>> 0;
+    const networkInt = (ipInt & maskInt) >>> 0;
+    return { networkInt, maskInt, cidrString: cidr, prefix };
+  }
 
+  // Check if a single IP (as integer) belongs to a CIDR block
+  function ipMatchesCIDR(ipInt, cidrObj) {
+    return (ipInt & cidrObj.maskInt) >>> 0 === cidrObj.networkInt;
+  }
+
+  // Core checking: returns true if IP is flagged
+  function isIpFlagged(ipAddress) {
+    if (!ipAddress || !isDataReady) return false;
+    
+    // Exact match (fast O(1))
+    if (blocklistEntries.has(ipAddress)) return true;
+    
+    // CIDR / range matching
+    const ipIntValue = ipToInt(ipAddress);
+    for (const cidr of cidrBlocks) {
+      if (ipMatchesCIDR(ipIntValue, cidr)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Parse a text file's lines: each line may be an IP or CIDR (trimmed, ignore empty/comments starting with #)
+  function parseBlocklistFromText(content) {
+    const lines = content.split(/\r?\n/);
+    const exactIps = new Set();
+    const cidrList = [];
+    
+    for (let line of lines) {
+      line = line.trim();
+      if (line === '' || line.startsWith('#')) continue;
+      
+      if (line.includes('/')) {
+        if (isValidCIDR(line)) {
+          cidrList.push(parseCIDR(line));
+        }
+      } else if (isValidIPv4(line)) {
+        exactIps.add(line);
+      }
+    }
+    return { exactIps, cidrList };
+  }
+
+  // Merge newly parsed data into the global blocklist
+  function mergeBlocklistData(parsed) {
+    // Merge exact IPs
+    for (const ip of parsed.exactIps) {
+      blocklistEntries.add(ip);
+    }
+    // Merge CIDR blocks (avoid duplicates if same CIDR string)
+    for (const cidrObj of parsed.cidrList) {
+      const exists = cidrBlocks.some(existing => existing.cidrString === cidrObj.cidrString);
+      if (!exists) {
+        cidrBlocks.push(cidrObj);
+      }
+    }
+  }
+
+  // Fetch and parse all .txt files from the GitHub folder using API + raw content
+  async function fetchAndBuildBlocklist() {
+    if (isLoading) return;
+    isLoading = true;
+    updateStatusMessage('⟳ Fetching latest blocklist from GitHub repository...', 'loading');
+    
+    try {
+      // Step 1: Get directory contents via GitHub API
+      const dirResponse = await fetch(API_LIST_URL, {
+        headers: { 'Accept': 'application/vnd.github.v3+json' }
+      });
+      
+      if (!dirResponse.ok) {
+        if (dirResponse.status === 403 || dirResponse.status === 429) {
+          throw new Error('GitHub API rate limit exceeded. Try again later.');
+        }
+        throw new Error(`GitHub API error (${dirResponse.status}): unable to fetch directory.`);
+      }
+      
+      const contents = await dirResponse.json();
+      if (!Array.isArray(contents)) throw new Error('Invalid API response format.');
+      
+      // Step 2: filter only .txt files
+      const txtFiles = contents.filter(item => item.type === 'file' && item.name.endsWith('.txt'));
+      if (txtFiles.length === 0) throw new Error('No .txt files found in the blocklist directory.');
+      
+      // Step 3: fetch each .txt file using raw.githubusercontent.com
+      const fetchPromises = txtFiles.map(async (file) => {
+        const rawUrl = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${BLOCKLIST_PATH}/${file.name}`;
+        const res = await fetch(rawUrl);
+        if (!res.ok) throw new Error(`Failed to fetch ${file.name} (HTTP ${res.status})`);
+        const textContent = await res.text();
+        return parseBlocklistFromText(textContent);
+      });
+      
+      const parsedResults = await Promise.all(fetchPromises);
+      
+      // Reset current blocklist before merging new data
+      blocklistEntries.clear();
+      cidrBlocks = [];
+      
+      // Merge all parsed data
+      for (const parsed of parsedResults) {
+        mergeBlocklistData(parsed);
+      }
+      
+      isDataReady = true;
+      const totalIPs = blocklistEntries.size;
+      const totalRanges = cidrBlocks.length;
+      updateStatusMessage(`✅ Blocklist ready — ${totalIPs} exact IPs + ${totalRanges} CIDR ranges loaded from ${txtFiles.length} feed files.`, 'ready');
+      return true;
+      
+    } catch (err) {
+      console.error('Blocklist load error:', err);
+      let errorMsg = err.message || 'Failed to load blocklist';
+      if (errorMsg.includes('rate limit')) {
+        errorMsg = '⚠️ GitHub API rate limit reached. Please wait a few minutes and refresh the page.';
+      }
+      updateStatusMessage(`⚠️ ${errorMsg}`, 'error');
+      isDataReady = false;
+      return false;
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  // Update the small status line under the form
+  function updateStatusMessage(msg, type = 'loading') {
+    const statusSpan = document.getElementById('dataStatus');
+    if (statusSpan) {
+      statusSpan.innerHTML = msg;
+      if (type === 'error') statusSpan.style.color = '#c2410c';
+      else if (type === 'ready') statusSpan.style.color = '#2c7a4d';
+      else statusSpan.style.color = '#475569';
+    }
+  }
+  
+  // Display the result of an IP check
+  function showResult(ip, flagged, error = null) {
+    const resultDiv = document.getElementById('resultArea');
+    if (!resultDiv) return;
+    
+    resultDiv.style.display = 'block';
+    resultDiv.className = 'result-card';
+    
+    if (error) {
+      resultDiv.classList.add('result-error');
+      resultDiv.innerHTML = `
+        <div class="badge">⚠️ ERROR</div>
+        <div class="status-msg">${escapeHtml(error)}</div>
+        <div style="margin-top: 10px; font-size:0.9rem;">Please verify the IP format or try again later.</div>
+      `;
+      return;
+    }
+    
+    if (flagged) {
+      resultDiv.classList.add('result-flagged');
+      resultDiv.innerHTML = `
+        <div class="badge">🚨 FLAGGED</div>
+        <div class="status-msg">The IP <strong>${escapeHtml(ip)}</strong> is present in the blocklist.</div>
+        <div style="margin-top: 10px; font-size:0.9rem;">This address has been reported as malicious or suspicious.</div>
+      `;
+    } else {
+      resultDiv.classList.add('result-clean');
+      resultDiv.innerHTML = `
+        <div class="badge">✅ CLEAN</div>
+        <div class="status-msg">The IP <strong>${escapeHtml(ip)}</strong> was NOT FOUND in the blocklist.</div>
+        <div style="margin-top: 10px; font-size:0.9rem;">No active flag associated with this address.</div>
+      `;
+    }
+  }
+
+  // Simple XSS protection
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+
+  // Handle IP submission
+  async function handleIpCheck(event) {
+    event.preventDefault();
+    const ipInput = document.getElementById('ipInput');
+    const rawIp = ipInput.value.trim();
+    const resultDiv = document.getElementById('resultArea');
+    
+    if (!rawIp) {
+      showResult('', false, 'Please enter an IP address or CIDR range.');
+      return;
+    }
+    
+    // Validate format: either plain IPv4 or CIDR (we treat both, but check only logic: For CIDR passed by user? current feature checks single IPs. Extend: if user gives CIDR we can check entire range? but spec only search if IP is flagged.
+    // Simpler: only single IPv4 is supported for "check IP" feature
+    let ipToCheck = rawIp;
+    if (rawIp.includes('/')) {
+      // user might have entered a CIDR but we will only check if the exact CIDR line exists or not? easier: we inform
+      if (!isValidCIDR(rawIp)) {
+        showResult(rawIp, false, 'Invalid CIDR format. Please use a valid IPv4 address (e.g., 192.0.2.1).');
+        return;
+      } else {
+        showResult(rawIp, false, 'The tool checks individual IPv4 addresses. Please enter a single IP like 8.8.8.8');
+        return;
+      }
+    }
+    
+    if (!isValidIPv4(ipToCheck)) {
+      showResult(rawIp, false, 'Invalid IPv4 address. Use format: 192.168.1.1');
+      return;
+    }
+    
+    // Show loading inside result area while checking.
+    resultDiv.style.display = 'block';
+    resultDiv.className = 'result-card result-loading';
+    resultDiv.innerHTML = `<div class="loading-spinner"></div><span style="margin-left:8px;">Checking IP against blocklist...</span>`;
+    
+    // Ensure data is ready, if not, wait for initial load, but non-blocking: automatically refetch if empty.
+    if (!isDataReady && !isLoading) {
+      updateStatusMessage('⟳ Blocklist not ready, fetching now...', 'loading');
+      await fetchAndBuildBlocklist();
+    } else if (!isDataReady && isLoading) {
+      // If loading in progress, wait a bit (max 3 secs)
+      let waited = 0;
+      while (!isDataReady && isLoading && waited < 4000) {
+        await new Promise(r => setTimeout(r, 200));
+        waited += 200;
+      }
+    }
+    
+    if (!isDataReady) {
+      showResult(ipToCheck, false, 'Blocklist data is not ready yet. Please refresh or try again in a moment.');
+      return;
+    }
+    
+    const flagged = isIpFlagged(ipToCheck);
+    showResult(ipToCheck, flagged);
+  }
+  
+  // Initial load when page loads
+  window.addEventListener('DOMContentLoaded', async () => {
+    // Preload blocklist in background without blocking UI
+    await fetchAndBuildBlocklist();
+    // attach submit event
+    const form = document.getElementById('ipCheckForm');
+    if (form) form.addEventListener('submit', handleIpCheck);
+    // manual trigger for initial state
+    const statusHint = document.getElementById('dataStatus');
+    if (!isDataReady && !isLoading) statusHint.innerHTML = 'ℹ️ Click "CHECK IP" to load data if needed.';
+  });
+</script>
 </body>
 </html>
